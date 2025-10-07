@@ -1,6 +1,6 @@
 # Author: Roshan Thomas
 
-import whisper 
+import whisperx
 from utils import write_to_srt, transcribe_malayalam_to_english
 import argparse
 
@@ -17,12 +17,13 @@ args = parser.parse_args()
 
 
 def load_model(model_size):
-    model = whisper.load_model(model_size)   
+    model_size = "deepdml/faster-whisper-large-v3-turbo-ct2"
+    model = whisperx.load_model(model_size, 'cuda', compute_type="float16")
     return model
 
 if __name__ == "__main__":
     audio_filename = args.audio                                    # Enter name of the audio file to be translated here
-    model_size = "large"                                           # Enter size of the model to be used (tiny, small, medium, or large)
+                                               # Enter size of the model to be used (tiny, small, medium, or large)
     load_path = f"{args.load}"                                     # Load Path of Input
     save_path = "."                                                # Save Path of Output
 
@@ -44,6 +45,7 @@ if __name__ == "__main__":
     write_to_srt(result, audio_filename, save_path)                                        # Export results to an srt
 
     print("\n\nSuccessfully exported to a .srt file format.")                       # Message informing user of successful completion
+
 
 
 
